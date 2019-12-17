@@ -10,8 +10,28 @@
             <app-baskettotal></app-baskettotal>
         </div>
     </header>
-    <app-facet></app-facet>
-    <app-productlist></app-productlist>
+
+    <div class="container">
+		<h4>This page content is static, will update soon with dynamic data using vUE</h4>
+		<div class="row margin10top col-12 noPad">
+			<div id="ProductLists" class="col-12 noPad plp-products">
+                <div class="col-12 col-sm-12 col-md-2 noPad">
+					<app-facet></app-facet>
+				</div>
+                <div class="col-12 col-sm-12 col-md-10 noPad">
+					<div class="plp-products__pagination col-12 col-sm-12">
+						<select class="plp-products__sort-by js-sortBy">
+							<option value="default" selected>Sort By</option>
+							<option value="hightolow">High - Low</option>
+							<option value="lowtohigh">Low - High</option>
+						</select>
+					</div>
+                    <app-productlist></app-productlist>
+                </div>
+			</div>
+        </div>
+    </div>
+    
     </div>
  </template>
 
