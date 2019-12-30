@@ -22,6 +22,9 @@ module.exports = {
     entry: {
         app: './src/index.js',
         plugin: './src/plugin.js'
+        // vendors: [
+        //     "webpack-material-design-icons"
+        // ]
        // SASS_MAIN_FILE
     },
     output: {
@@ -113,7 +116,20 @@ module.exports = {
                     options: "$"
                   }
                 ]
-              }
+            },
+           /* {
+                
+                test: /\.(svg|eot|woff|ttf|svg|woff2)$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: "[path][name].[ext]"
+                        }
+                    }
+                ]
+               
+            } */
         ]
     },
     resolve: {

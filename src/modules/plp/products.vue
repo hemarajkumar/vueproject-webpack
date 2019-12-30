@@ -1,73 +1,62 @@
 <template>
+  <div>
     <div class="col-12 col-sm-12 noPad plp-products__list">
-        <div class="plp-products__product">
-            <div class="plp-products__img-container">
-                <a href="javascript:void(0);" class="js-navigatePdp plp-products__img-container--link">
-                    <img srcset="dist/images/clothing2.jpg" class="plp-products__img">
-                </a>
-            </div>
-            <span class="plp-products__name">{{ productTitle }}</span>
-            <div class="plp-products__price">
-                <span class="plp-products__now-price">
-                    £29.00
-                </span>
-            </div>
-            <button class="btn btn-danger plp-products--add-basket-btn">Add to Basket</button>
-		</div>
-
-         <div class="plp-products__product">
-            <div class="plp-products__img-container">
-                <a href="javascript:void(0);" class="js-navigatePdp plp-products__img-container--link">
-                    <img srcset="dist/images/clothing2.jpg" class="plp-products__img">
-                </a>
-            </div>
-            <span class="plp-products__name">{{ productTitle }}</span>
-            <div class="plp-products__price">
-                <span class="plp-products__now-price">
-                    £29.00
-                </span>
-            </div>
-            <button class="btn btn-danger plp-products--add-basket-btn">Add to Basket</button>
-		</div>
-
-         <div class="plp-products__product">
-            <div class="plp-products__img-container">
-                <a href="javascript:void(0);" class="js-navigatePdp plp-products__img-container--link">
-                    <img srcset="dist/images/clothing2.jpg" class="plp-products__img">
-                </a>
-            </div>
-            <span class="plp-products__name">{{ productTitle }}</span>
-            <div class="plp-products__price">
-                <span class="plp-products__now-price">
-                    £29.00
-                </span>
-            </div>
-            <button class="btn btn-danger plp-products--add-basket-btn">Add to Basket</button>
-		</div>
-
-         <div class="plp-products__product">
-            <div class="plp-products__img-container">
-                <a href="javascript:void(0);" class="js-navigatePdp plp-products__img-container--link">
-                    <img srcset="dist/images/clothing2.jpg" class="plp-products__img">
-                </a>
-            </div>
-            <span class="plp-products__name">{{ productTitle }}</span>
-            <div class="plp-products__price">
-                <span class="plp-products__now-price">
-                    £29.00
-                </span>
-            </div>
-            <button class="btn btn-danger plp-products--add-basket-btn">Add to Basket</button>
-		</div>
+      <template v-for="lists in productList">
+        <div class="plp-products__product" v-bind:key="lists.index">
+          <div class="plp-products__img-container">
+            <a href="javascript:void(0);" class="js-navigatePdp plp-products__img-container--link">
+              <img v-bind:srcset="lists.image" class="plp-products__img" />
+            </a>
+          </div>
+          <span class="plp-products__name">{{ lists.name }}</span>
+          <div class="plp-products__price">
+            <span class="plp-products__now-price">
+              <i v-if="lists.wasprice">Now -</i>
+              £{{ lists.price }}
+            </span>
+            <span v-if="lists.wasprice" class="plp-products__was-price">
+              Was -
+              <i>£{{ lists.wasprice }}</i>
+            </span>
+          </div>
+          <button class="btn btn-danger plp-products--add-basket-btn">Add to Basket</button>
+          <div
+            v-if="lists.roundelImg"
+            class="plp-products__roundel-product"
+            v-bind:style="{ 'background-image': 'url(' + lists.roundelImg + ')'}"
+          ></div>
+        </div>
+      </template>
     </div>
+  </div>
 </template>
 
 <script>
-    export default {
-        data () {
-            return {
-                productTitle: 'Mens Wear'
-            }
-        }
-    }; 
+import { mapState } from "vuex";
+import { productObject } from "../store/store";
+export default {
+  data() {
+    return {
+      sortObj: productObject.state[0].sortOption,
+      productList: []
+    };
+  },
+  computed: {},
+  mounted() {
+    this.productList = this.updatePlpData();
+  },
+  methods: {
+    updatePlpData: function() {
+      productObject.commit("getCategoryDetails");
+      return productObject.getters.generateProductList;
+    }
+  },
+  watch: {
+    productList: function() {},
+    $route() {
+      this.productList = [];
+      this.productList = this.updatePlpData();
+    }
+  }
+};
 </script>
